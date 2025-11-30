@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface TransactionDao {
 
     @Insert
-    suspend fun inertTransaction(transaction: TransactionEntity)
+    suspend fun insertTransaction(transaction: TransactionEntity)
 
     @Query("SELECT * FROM transactions ORDER BY date DESC")
-    suspend fun getAllTransactions(): Flow<List<TransactionEntity>>
+    fun getAllTransactions(): Flow<List<TransactionEntity>>
 
 }

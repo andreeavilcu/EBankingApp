@@ -2,22 +2,36 @@ package com.example.ebankingapp.data.repository
 
 import com.example.ebankingapp.data.local.account.AccountDao
 import com.example.ebankingapp.data.local.account.AccountEntity
+import com.example.ebankingapp.data.local.transaction.TransactionEntity
 import com.example.ebankingapp.domain.repository.AccountRepository
+import com.example.ebankingapp.data.local.transaction.TransactionDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val dao: AccountDao
+    private val accountDao: AccountDao,
+    private val  transactionDao: TransactionDao
 ): AccountRepository {
     override fun getMyAccount(): Flow<AccountEntity?>{
-        return dao.getMyAccount()
+        return accountDao.getMyAccount()
     }
 
     override suspend fun insertAccount(account: AccountEntity){
-        dao.insertAccount(account)
+        accountDao.insertAccount(account)
     }
 
     override suspend fun updateBalance(id: Int, newBalance: Double){
-        dao.updateBalance(id, newBalance)
+        accountDao.updateBalance(id, newBalance)
     }
+
+    override fun getAllTransactions(): Flow<List<TransactionEntity>> {
+       return transactionDao.getAllTransactions();
+    }
+
+    override suspend fun insertTransaction(transaction: TransactionEntity) {
+        transactionDao.insertTransaction(transaction)
+
+    }
+
+
 }

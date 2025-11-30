@@ -35,8 +35,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAccountRepository(dao: AccountDao): com.example.ebankingapp.domain.repository.AccountRepository {
-        return com.example.ebankingapp.data.repository.AccountRepositoryImpl(dao)
+    fun provideAccountRepository(
+        dao: AccountDao,
+        transactionDao: com.example.ebankingapp.data.local.transaction.TransactionDao
+    ): com.example.ebankingapp.domain.repository.AccountRepository {
+        return com.example.ebankingapp.data.repository.AccountRepositoryImpl(dao, transactionDao)
     }
 
     @Provides

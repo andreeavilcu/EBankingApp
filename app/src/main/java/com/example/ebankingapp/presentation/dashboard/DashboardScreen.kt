@@ -25,13 +25,24 @@ import java.util.Locale
 
 @Composable
 fun DashboardScreen (
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    onNavigateToTransfer: () -> Unit
 ){
     val state by viewModel.state.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = Color(0xFFF5F5F5)
+        containerColor = Color(0xFFF5F5F5),
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = onNavigateToTransfer,
+                icon = { Icon(Icons.Default.ArrowUpward, contentDescription = null) },
+                text = { Text("New transfer") },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = Color.White
+            )
+        }
+
     ) {
         paddingValues ->
 

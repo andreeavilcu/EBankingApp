@@ -24,7 +24,7 @@ class DashboardViewModel @Inject constructor(
         val state: StateFlow<DashboardState> = _state.asStateFlow()
 
         init{
-            initializeDummyDataIfNeeded()
+
             loadDashBoardData()
         }
 
@@ -43,37 +43,4 @@ class DashboardViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun initializeDummyDataIfNeeded(){
-        viewModelScope.launch {
-            repository.getMyAccount().collect { account ->
-                if(account == null) {
-                    val  dummyAccount = AccountEntity(
-                        iban = "RO98 BTRL 0000 1234 5678 XX",
-                        holderName = "Andreea Vilcu",
-                        balance = 2500.00,
-                        currency = "RON"
-                    )
-                    repository.insertAccount(dummyAccount)
-
-                    repository.insertTransaction(
-                        TransactionEntity(
-                            amount = 500.0,
-                            counterPartyName = "Salary",
-                            date = System.currentTimeMillis(),
-                            type = "IN"
-                        )
-                    )
-
-                    repository.insertTransaction(
-                        TransactionEntity(
-                            amount = 45.0,
-                            counterPartyName = "Netflix",
-                            date = System.currentTimeMillis() - 86400000,
-                            type = "OUT"
-                        )
-                    )
-                }
-            }
-        }
-        } 
     }

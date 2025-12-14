@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    fun onPinEntered(pin: String,  onSuccess: () -> Unit){
+    fun onPinEntered(pin: String, onSuccess: () -> Unit) {
         val currentPin = _state.value.inputPin + pin
 
         if (currentPin.length <= 4) {
@@ -43,23 +43,12 @@ class LoginViewModel @Inject constructor(
 
         if (currentPin.length == 4) {
             val inputHash = hashString(currentPin)
+            val savedHash = sharedPreferences.getString("pin_hash", "")
 
-            if (_state.value.isPinCreated) {
-                val savedHash = sharedPreferences.getString("pin_hash", "")
-                if (inputHash == savedHash) {
-                    onSuccess()
-                } else {
-                    _state.value = _state.value.copy(inputPin = "", isError = true, message = "Incorrect PIN. Please try again.")
-                }
-            }
-            else {
-                sharedPreferences.edit().putString("pin_hash", inputHash).apply()
-
-                _state.value = _state.value.copy(
-                    isPinCreated = true,
-                    inputPin = "",
-                    message = "PIN saved! Please confirm it to continue."
-                )
+            if (inputHash == savedHash) {
+                onSuccess()
+            } else {
+                _state.value = _state.value.copy(inputPin = "", isError = true, message = "PIN Incorect.")
             }
         }
     }

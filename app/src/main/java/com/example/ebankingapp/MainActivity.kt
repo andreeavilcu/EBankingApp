@@ -13,6 +13,7 @@ import com.example.ebankingapp.ui.theme.EBankingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.FragmentActivity
 import com.example.ebankingapp.presentation.register.RegisterScreen
+import com.example.ebankingapp.presentation.settings.SettingsScreen
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
@@ -58,8 +59,25 @@ class MainActivity : FragmentActivity() {
                         DashboardScreen(
                             onNavigateToTransfer = {
                                 navController.navigate(Screen.Transfer.route)
+                            },
+                            onNavigateToSettings = {
+                                navController.navigate(Screen.Settings.route)
                             }
                         )
+                    }
+
+                    composable(route = Screen.Settings.route){
+                        SettingsScreen(
+                            onNavigateBack = {
+                                navController.popBackStack()
+                            },
+                            onLogout = {
+                                navController.navigate(Screen.Login.route) {
+                                    popUpTo(0)
+                                }
+                            }
+                        )
+
                     }
 
                     composable(route = Screen.Transfer.route) {

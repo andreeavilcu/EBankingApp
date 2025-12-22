@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,14 +24,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ebankingapp.data.local.transaction.TransactionEntity
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen (
     viewModel: DashboardViewModel = hiltViewModel(),
-    onNavigateToTransfer: () -> Unit
+    onNavigateToTransfer: () -> Unit,
+    onNavigateToSettings: () -> Unit
+
 ){
     val state by viewModel.state.collectAsState()
 
     Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("E-Banking", fontWeight = FontWeight.Bold)},
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFFF5F5F5)
+                )
+            )
+        },
+
+
         modifier = Modifier.fillMaxSize(),
         containerColor = Color(0xFFF5F5F5),
         floatingActionButton = {

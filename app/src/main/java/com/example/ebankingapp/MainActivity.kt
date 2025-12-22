@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.FragmentActivity
 import com.example.ebankingapp.presentation.register.RegisterScreen
 import com.example.ebankingapp.presentation.settings.SettingsScreen
-
+import com.example.ebankingapp.presentation.currency.CurrencyScreen
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +62,9 @@ class MainActivity : FragmentActivity() {
                             },
                             onNavigateToSettings = {
                                 navController.navigate(Screen.Settings.route)
+                            },
+                            onNavigateToCurrency = {
+                                navController.navigate(Screen.Currency.route)
                             }
                         )
                     }
@@ -88,9 +91,12 @@ class MainActivity : FragmentActivity() {
                         )
                     }
 
+                    composable(route = Screen.Currency.route) {
+                        CurrencyScreen(navController = navController)
+                    }
+
             }
         }
     }
 }
 }
-

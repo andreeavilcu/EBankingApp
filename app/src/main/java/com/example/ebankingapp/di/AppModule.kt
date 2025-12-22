@@ -10,6 +10,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.ebankingapp.data.remote.CurrencyApi
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -37,15 +40,31 @@ object AppModule {
     @Singleton
     fun provideAccountRepository(
         dao: AccountDao,
-        transactionDao: com.example.ebankingapp.data.local.transaction.TransactionDao
+        transactionDao: com.example.ebankingapp.data.local.transaction.TransactionDao,
+        api: CurrencyApi
     ): com.example.ebankingapp.domain.repository.AccountRepository {
-        return com.example.ebankingapp.data.repository.AccountRepositoryImpl(dao, transactionDao)
+        return com.example.ebankingapp.data.repository.AccountRepositoryImpl(dao, transactionDao, api)
     }
 
     @Provides
     @Singleton
     fun provideTransactionDao(database: AppDatabase): com.example.ebankingapp.data.local.transaction.TransactionDao {
         return database.transactionDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://open.er-api.com/v6/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCurrencyApi(retrofit: Retrofit): CurrencyApi {
+        return retrofit.create(CurrencyApi::class.java)
     }
 
 

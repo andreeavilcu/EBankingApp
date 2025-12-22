@@ -6,11 +6,13 @@ import com.example.ebankingapp.data.local.transaction.TransactionEntity
 import com.example.ebankingapp.domain.repository.AccountRepository
 import com.example.ebankingapp.data.local.transaction.TransactionDao
 import kotlinx.coroutines.flow.Flow
+import com.example.ebankingapp.data.remote.CurrencyApi
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
-    private val  transactionDao: TransactionDao
+    private val  transactionDao: TransactionDao,
+    private val api: CurrencyApi
 ): AccountRepository {
     override fun getMyAccount(): Flow<AccountEntity?>{
         return accountDao.getMyAccount()
@@ -36,6 +38,16 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun resetLocalData() {
        accountDao.deleteAll()
         transactionDao.deleteAll()
+    }
+
+    override suspend fun getCurrencyRates(): Map<String, Double> {
+        return try {
+            val response = api.getExchangeRates()
+            response.rates
+        } catch ( e: Exception ){
+            e.printStackTrace()
+            emptyMap()
+        }
     }
 
 

@@ -23,13 +23,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ebankingapp.data.local.transaction.TransactionEntity
 import java.util.Locale
+import androidx.compose.material.icons.filled.AttachMoney
+import com.example.ebankingapp.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen (
     viewModel: DashboardViewModel = hiltViewModel(),
     onNavigateToTransfer: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToCurrency: () -> Unit
 
 ){
     val state by viewModel.state.collectAsState()
@@ -107,6 +110,33 @@ fun DashboardScreen (
                     items(state.transactions) { transaction ->
                         TransactionItem(transaction)
                     }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = onNavigateToCurrency,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .padding(horizontal = 16.dp),
+                    shape = MaterialTheme.shapes.medium,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+
+                ){
+                    Icon(
+                        imageVector = Icons.Filled.AttachMoney,
+                        contentDescription = "Currency Icon",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Currency Exchange & Rates",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }

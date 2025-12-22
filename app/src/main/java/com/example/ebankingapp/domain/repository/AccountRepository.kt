@@ -13,4 +13,7 @@ interface AccountRepository {
     suspend fun insertTransaction(transaction: TransactionEntity)
 
     suspend fun resetLocalData()
+
+    suspend fun getCurrencyRates(): Map<String, Double>
+
 }

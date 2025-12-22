@@ -66,18 +66,18 @@ class MainActivity : FragmentActivity() {
                         )
                     }
 
-                    composable(route = Screen.Settings.route){
+                    composable(route = Screen.Settings.route) {
                         SettingsScreen(
-                            onNavigateBack = {
-                                navController.popBackStack()
-                            },
+                            onNavigateBack = { navController.popBackStack() },
                             onLogout = {
-                                navController.navigate(Screen.Login.route) {
+                                navController.navigate(Screen.Login.route) { popUpTo(0) }
+                            },
+                            onResetApp = {
+                                navController.navigate(Screen.Register.route) {
                                     popUpTo(0)
                                 }
                             }
                         )
-
                     }
 
                     composable(route = Screen.Transfer.route) {

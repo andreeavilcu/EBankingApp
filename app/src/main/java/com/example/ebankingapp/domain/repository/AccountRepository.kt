@@ -11,4 +11,6 @@ interface AccountRepository {
 
     fun getAllTransactions(): Flow<List<TransactionEntity>>
     suspend fun insertTransaction(transaction: TransactionEntity)
+
+    suspend fun resetLocalData()
 }

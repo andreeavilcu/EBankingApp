@@ -33,5 +33,10 @@ class AccountRepositoryImpl @Inject constructor(
 
     }
 
+    override suspend fun resetLocalData() {
+       accountDao.deleteAll()
+        transactionDao.deleteAll()
+    }
+
 
 }
